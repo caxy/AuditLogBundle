@@ -1,0 +1,24 @@
+Caxy\AuditLogBundle\Model\Entity:
+    type: entity
+    table: entity
+    indexes:
+        name_index:
+            columns: [ name ]
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+    oneToMany:
+        entityRecords:
+            targetEntity: EntityRecord
+            mappedBy: entity
+            fetch: EXTRA_LAZY
+            cascade: ["remove"]
+        properties:
+            targetEntity: Property
+            mappedBy: entity
+            fetch: EXTRA_LAZY
+            cascade: ["remove"]

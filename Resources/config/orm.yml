@@ -1,0 +1,7 @@
+services:
+    caxy_audit_log.entity_manager:
+        class: Doctrine\ORM\EntityManager
+        factory_service: doctrine
+        factory_method: getManager
+        public: false
+        arguments: ["%caxy_audit_log.model_manager_name%"]

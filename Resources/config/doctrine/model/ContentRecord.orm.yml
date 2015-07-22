@@ -1,0 +1,35 @@
+Caxy\AuditLogBundle\Model\ContentRecord:
+    type: entity
+    table: content_record
+    repositoryClass: Caxy\AuditLogBundle\Model\Repository\ContentRecordRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        timestamp:
+            type: datetime
+    oneToOne:
+        textContent:
+            targetEntity: TextContent
+            mappedBy: contentRecord
+            cascade: ["remove"]
+        blobContent:
+            targetEntity: BlobContent
+            mappedBy: contentRecord
+            cascade: ["remove"]
+    manyToOne:
+        propertyType:
+            targetEntity: PropertyType
+            inversedBy: contentRecords
+            joinColumn:
+                name: property_type_id
+                referencedColumnName: id
+                onDelete: CASCADE
+        version:
+            targetEntity: Version
+            inversedBy: contentRecords
+            joinColumn:
+                name: version_id
+                referencedColumnName: id
+                onDelete: CASCADE

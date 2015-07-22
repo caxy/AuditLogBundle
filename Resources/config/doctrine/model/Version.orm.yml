@@ -1,0 +1,29 @@
+Caxy\AuditLogBundle\Model\Version:
+    type: entity
+    table: version
+    repositoryClass: Caxy\AuditLogBundle\Model\Repository\VersionRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    manyToOne:
+        updateType:
+            targetEntity: UpdateType
+            inversedBy: versions
+            joinColumn:
+                name: update_type_id
+                referencedColumnName: id
+                onDelete: CASCADE
+        versionGroup:
+            targetEntity: VersionGroup
+            inversedBy: versions
+            joinColumn:
+                name: version_group_id
+                referencedColumnName: id
+                onDelete: CASCADE
+    oneToMany:
+        contentRecords:
+            targetEntity: ContentRecord
+            mappedBy: version
+            fetch: EXTRA_LAZY
+            cascade: ["remove"]

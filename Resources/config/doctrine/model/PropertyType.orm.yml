@@ -1,0 +1,27 @@
+Caxy\AuditLogBundle\Model\PropertyType:
+    type: entity
+    table: property_type
+    indexes:
+        property_id_type_index:
+            columns: [ property_id, type ]
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        type:
+            type: string
+    manyToOne:
+        property:
+            targetEntity: Property
+            joinColumn:
+                name: property_id
+                inversedBy: propertyTypes
+                referencedColumnName: id
+                onDelete: CASCADE
+    oneToMany:
+        contentRecords:
+            targetEntity: ContentRecord
+            mappedBy: propertyType
+            fetch: EXTRA_LAZY
+            cascade: ["remove"]

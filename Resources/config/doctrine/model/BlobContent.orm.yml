@@ -1,0 +1,19 @@
+Caxy\AuditLogBundle\Model\BlobContent:
+    type: entity
+    table: blob_content
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        content:
+            type: blob
+            nullable: true
+    oneToOne:
+        contentRecord:
+            targetEntity: ContentRecord
+            inversedBy: blobContent
+            joinColumn:
+                name: content_record_id
+                referencedColumnName: id
+                onDelete: CASCADE

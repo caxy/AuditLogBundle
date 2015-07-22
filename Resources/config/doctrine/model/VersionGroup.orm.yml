@@ -1,0 +1,21 @@
+Caxy\AuditLogBundle\Model\VersionGroup:
+    type: entity
+    table: version_group
+    repositoryClass: Caxy\AuditLogBundle\Model\Repository\VersionGroupRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        timestamp:
+            type: datetime
+        userId:
+            type: integer
+            column: user_id
+            nullable: true
+    oneToMany:
+        versions:
+            targetEntity: Version
+            mappedBy: versionGroup
+            fetch: EXTRA_LAZY
+            cascade: ["remove"]

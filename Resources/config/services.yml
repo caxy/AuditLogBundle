@@ -1,0 +1,43 @@
+parameters:
+    caxy_audit_log.manager.class: Caxy\AuditLogBundle\Manager\AuditLogManager
+    caxy_audit_log.config.class: Caxy\AuditLogBundle\Configuration\AuditLogConfiguration
+    caxy_audit_log.schema_subscriber.class: Caxy\AuditLogBundle\EventListener\SchemaSubscriber
+    caxy_audit_log.transaction_subscriber.class: Caxy\AuditLogBundle\EventListener\TransactionSubscriber
+    caxy_audit_log.user_subscriber.class: Caxy\AuditLogBundle\EventListener\UserSubscriber
+    caxy_audit_log.reader.class: Caxy\AuditLogBundle\Reader\Reader
+    caxy_audit_log.revision_class: Caxy\AuditLogBundle\Reader\Revision
+
+services:
+    caxy_audit_log.manager:
+        class: "%caxy_audit_log.manager.class%"
+        arguments: ["@caxy_audit_log.config"]
+    caxy_audit_log.config:
+        class: "%caxy_audit_log.config.class%"
+        calls:
+            - [setAuditedEntityClasses, ["%caxy_audit_log.audited_entities%"]]
+            - [setTablePrefix, ["%caxy_audit_log.table_prefix%"]]
+            - [setTableSuffix, ["%caxy_audit_log.table_suffix%"]]
+            - [setIgnoredEntityClasses, ["%caxy_audit_log.ignored_entities%"]]
+            - [setRevisionClass, ["%caxy_audit_log.revision_class%"]]
+    caxy_audit_log.schema_subscriber:
+        class: "%caxy_audit_log.schema_subscriber.class%"
+        arguments: ["@caxy_audit_log.manager"]
+        tags:
+            - { name: doctrine.event_subscriber }
+    caxy_audit_log.transaction_subscriber:
+        class: "%caxy_audit_log.transaction_subscriber.class%"
+        arguments: ["@caxy_audit_log.manager"]
+        tags:
+            - { name: doctrine.event_subscriber }
+    caxy_audit_log.user_subscriber:
+        class: "%caxy_audit_log.user_subscriber.class%"
+        arguments:
+            - "@caxy_audit_log.config"
+            - "@security.context"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: handle }
+    caxy_audit_log.reader:
+        class: %caxy_audit_log.reader.class%
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "@caxy_audit_log.manager"

@@ -1,0 +1,26 @@
+{
+    "name": "caxy/audit-log-bundle",
+    "description": "A Symfony2 bundle for auditing entities managed by Doctrine ORM",
+    "type": "symfony-bundle",
+    "homepage": "https://github.com/caxy/AuditLogBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Schroeder",
+            "email": "jschroeder@caxy.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "doctrine/orm": "~2.2",
+        "symfony/framework-bundle": "~2.1"
+    },
+    "autoload": {
+        "psr-4": {"Caxy\\AuditLogBundle\\": ""}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}

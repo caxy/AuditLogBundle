@@ -1,0 +1,27 @@
+Caxy\AuditLogBundle\Model\EntityRecord:
+    type: entity
+    table: entity_record
+    indexes:
+        loggedEntityId_entity_id_index:
+            columns: [ loggedEntityId, entity_id ]
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        loggedEntityId:
+            type: integer
+    manyToOne:
+        entity:
+            targetEntity: Entity
+            inversedBy: entityRecords
+            joinColumn:
+                name: entity_id
+                referencedColumnName: id
+                onDelete: CASCADE
+    oneToMany:
+        updateTypes:
+            targetEntity: UpdateType
+            mappedBy: entityRecord
+            fetch: EXTRA_LAZY
+            cascade: ["remove"]
